@@ -1,0 +1,25 @@
+{
+    "name": "baymax/laravel-query-log",
+    "description": "A query log tool for laravel application.",
+    "type": "library",
+    "require": {
+        "laravel/framework": "5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Baymax\\LaravelQueryLog\\": "src"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "baymax",
+            "email": "baymaxrice@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": ["Baymax\\LaravelQueryLog\\ServiceProvider"]
+        }
+    }
+}
