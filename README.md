@@ -5,7 +5,7 @@
 ## 安装
 
 ```shell
-$ composer require baymax/laravel-query-log --dev -vvv
+$ composer require BaymaxRice/laravel-query-log --dev -vvv
 ```
 
 ## 使用

@@ -1,5 +1,5 @@
 {
-    "name": "baymax/laravel-query-log",
+    "name": "BaymaxRice/laravel-query-log",
     "description": "A query log tool for laravel application.",
     "type": "library",
     "require": {
