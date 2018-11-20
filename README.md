@@ -5,7 +5,7 @@
 ## install
 
 ```shell
-$ composer require "baymaxrice/laravel-query-log":"dev-master" --dev -vvv
+$ composer require baymaxrice/laravel-query-log --dev -vvv
 ```
 
 ## usage
