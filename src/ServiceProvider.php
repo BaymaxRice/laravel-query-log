@@ -21,17 +21,24 @@ class ServiceProvider extends LaravelServiceProvider
      */
     public function boot()
     {
-        $this->log('============ URL: '.request()->fullUrl().' ===============');
-        DB::listen(function (QueryExecuted $query) {
-            $sqlWithPlaceholders = str_replace(['%', '?'], ['%%', '%s'], $query->sql);
+        $this->publishes([
+            __DIR__ . '/query-log.php' => config_path('query-log.php'),
+        ]);
 
-            $bindings = $query->connection->prepareBindings($query->bindings);
-            $pdo = $query->connection->getPdo();
-            $realSql = vsprintf($sqlWithPlaceholders, array_map([$pdo, 'quote'], $bindings));
-            $duration = $this->formatDuration($query->time / 1000);
+        $debug = config('query-log.debug', false);
+        if ($debug) {
+            $this->log('============ URL: ' . request()->fullUrl() . ' ===============');
+            DB::listen(function (QueryExecuted $query) {
+                $sqlWithPlaceholders = str_replace(['%', '?'], ['%%', '%s'], $query->sql);
 
-            $this->log(sprintf('[%s] %s', $duration, $realSql));
-        });
+                $bindings = $query->connection->prepareBindings($query->bindings);
+                $pdo = $query->connection->getPdo();
+                $realSql = vsprintf($sqlWithPlaceholders, array_map([$pdo, 'quote'], $bindings));
+                $duration = $this->formatDuration($query->time / 1000);
+
+                $this->log(sprintf('[%s] %s', $duration, $realSql));
+            });
+        }
     }
 
     /**
@@ -65,8 +72,12 @@ class ServiceProvider extends LaravelServiceProvider
     private function log($msg)
     {
         $default_hander = Log::getMonolog()->popHandler();
-        Log::useDailyFiles(storage_path('logs/db/db.log'));
-        Log::info($msg . "\n\n\t");
+        if (config('query-log.file.daily')) {
+            Log::useDailyFiles(storage_path('logs/' . config('query-log.file.name')));
+        } else {
+            Log::useFiles(storage_path('logs' . config('query-log.file.name')));
+        }
+        Log::debug($msg . "\n\n\t");
         Log::getMonolog()->popHandler();
         Log::getMonolog()->pushHandler($default_hander);
     }
