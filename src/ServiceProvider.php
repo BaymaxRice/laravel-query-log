@@ -75,7 +75,7 @@ class ServiceProvider extends LaravelServiceProvider
         if (config('query-log.file.daily')) {
             Log::useDailyFiles(storage_path('logs/' . config('query-log.file.name')));
         } else {
-            Log::useFiles(storage_path('logs' . config('query-log.file.name')));
+            Log::useFiles(storage_path('logs/' . config('query-log.file.name')));
         }
         Log::debug($msg . "\n\n\t");
         Log::getMonolog()->popHandler();

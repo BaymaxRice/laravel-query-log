@@ -5,10 +5,14 @@
 ## install
 
 ```shell
-$ composer require baymaxrice/laravel-query-log --dev -vvv
+$ composer require baymaxrice/laravel-query-log -vvv
 ```
 
 ## usage
+
+```shell
+$ `php artisan vendor:publish --provider="Baymax\LaravelQueryLog\ServiceProvider"`
+```
 
 ```shell
 $ tail -f ./storage/logs/db/db-2018-01-01.log
